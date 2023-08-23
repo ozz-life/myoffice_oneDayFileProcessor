@@ -38,7 +38,10 @@ public:
   FileCompressor(std::string p1, std::string p2)
       : param1(p1), param2(p2), compressionParams(param1 + param2) {}
 
-  FileCompressor(FileCompressor &&fc) {}
+  FileCompressor(FileCompressor &&fc)
+    : compressionParams(std::move(fc.compressionParams)),
+      param1(std::move(fc.param1)), param2(std::move(fc.param2)) {}
+
   FileCompressor &operator=(FileCompressor &&fc) {
 
     return *this;
