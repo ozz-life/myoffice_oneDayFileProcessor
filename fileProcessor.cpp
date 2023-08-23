@@ -28,14 +28,14 @@ public:
     encodeFile(fileContent);
   }
 
-  static void encodeFile(std::string fileContent) noexcept(false) {
+  static void encodeFile(std::string &fileContent) noexcept(false) {
     std::cout << "encoding file with content: " << fileContent;
   }
 };
 
 class FileCompressor : public FileProcessor {
 public:
-  FileCompressor(std::string p1, std::string p2)
+  FileCompressor(std::string &p1, std::string &p2)
       : param1(p1),
         param2(p2), // Initialize param1 and param2 before compressionParams
         compressionParams(param1 + param2) {}
@@ -64,7 +64,7 @@ public:
     compressFile(fileContent);
   }
 
-  void compressFile(std::string fileContent) const noexcept(false) {
+  void compressFile(std::string &fileContent) const noexcept(false) {
     std::cout << "compressing file with content: " << fileContent
               << " using params " << compressionParams;
   }
@@ -117,7 +117,7 @@ public:
     encryptionKey = nullptr; // Important to prevent double deletion
   }
 
-  void encryptFile(std::string fileContent) const noexcept(false) {
+  void encryptFile(std::string &fileContent) const noexcept(false) {
     std::cout << "encrypting file with content: " << fileContent
               << " using key " << encryptionKey;
   }
@@ -144,7 +144,7 @@ public:
     return *instance;
   }
 
-  static FileProcessor *createFileProcessor(std::string mode) {
+  static FileProcessor *createFileProcessor(std::string &mode) {
     if (mode == "encode") {
       return new FileEncoder();
     }
