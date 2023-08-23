@@ -108,12 +108,13 @@ public:
     encryptFile(fileContent);
   }
 
-  virtual void clearKey() {
+  void clearKey() {
     std::cout << "Clearing encryption key";
     if (!encryptionKey)
       throw "No encryption key";
 
     delete[] encryptionKey;
+    encryptionKey = nullptr; // Important to prevent double deletion
   }
 
   void encryptFile(std::string fileContent) const noexcept(false) {
