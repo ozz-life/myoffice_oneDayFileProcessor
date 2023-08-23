@@ -64,7 +64,7 @@ public:
     compressFile(fileContent);
   }
 
-  void compressFile(std::string fileContent) noexcept(false) {
+  void compressFile(std::string fileContent) const noexcept(false) {
     std::cout << "compressing file with content: " << fileContent
               << " using params " << compressionParams;
   }
@@ -116,7 +116,7 @@ public:
     delete[] encryptionKey;
   }
 
-  void encryptFile(std::string fileContent) noexcept(false) {
+  void encryptFile(std::string fileContent) const noexcept(false) {
     std::cout << "encrypting file with content: " << fileContent
               << " using key " << encryptionKey;
   }
