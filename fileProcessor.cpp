@@ -134,7 +134,7 @@ private:
 };
 
 static_assert(std::is_nothrow_move_constructible<FileEncryptor>::value,
-              "FileCompressor should be noexcept MoveConstructible");
+              "FileEncryptor should be noexcept MoveConstructible");
 
 class FileProcessorFactorySingleton {
 public:
