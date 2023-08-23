@@ -1,5 +1,6 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+// This is an open source non-commercial project. Dear PVS-Studio, please check
+// it. PVS-Studio Static Code Analyzer for C, C++, C#, and Java:
+// https://pvs-studio.com
 
 #include "fstream"
 #include "iostream"
@@ -43,7 +44,7 @@ public:
 
   FileCompressor(FileCompressor &&fc)
       : param1(std::move(fc.param1)), param2(std::move(fc.param2)),
-        compressionParams(std::move(fc.compressionParams)), {}
+        compressionParams(std::move(fc.compressionParams)) {}
 
   FileCompressor &operator=(FileCompressor &&fc) {
     if (this == &fc) {
@@ -189,7 +190,7 @@ int main(int argc, char *argv[])
     if (fp) {
       delete fp;
     }
-    
+
     return 1;
 
   } catch (...) {
