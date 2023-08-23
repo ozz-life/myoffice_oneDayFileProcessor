@@ -68,11 +68,10 @@ public:
   FileEncryptor() {
     srand(time(NULL));
     encryptionKey = new char[16];
-    for (int i = 0; i <= 16; i++) {
+    for (int i = 0; i < 16; i++) {
       // Generate printable key
       encryptionKey[i] = rand() % 64 + 0x20;
     }
-    encryptionKey[16] = 0;
   }
 
   ~FileEncryptor() { clearKey(); }
@@ -90,7 +89,7 @@ public:
     if (!encryptionKey)
       throw "No encryption key";
 
-    delete encryptionKey;
+    delete[] encryptionKey;
   }
 
   void encryptFile(std::string fileContent) noexcept(false) {
