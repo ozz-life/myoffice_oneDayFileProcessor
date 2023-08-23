@@ -8,6 +8,7 @@
 #include "vector"
 
 #include "time.h"
+#include <memory>
 
 class FileProcessor {
 public:
@@ -79,9 +80,10 @@ private:
 
 class FileEncryptor : public FileProcessor {
 public:
-  FileEncryptor() {
+  FileEncryptor(FileEncryptor&& other) noexcept : encryptionKey(std::move(other.encryptionKey))
+   {
     srand(time(NULL));
-    encryptionKey = new char[16];
+    encryptionKey = std::make_unique<char[]>(16);
     for (int i = 0; i < 16; i++) {
       // Generate printable key
       encryptionKey[i] = rand() % 64 + 0x20;
@@ -92,12 +94,12 @@ public:
   FileEncryptor(const FileEncryptor &other) { copyFrom(other); }
 
   // Assignment operator
-  FileEncryptor &operator=(const FileEncryptor &other) {
-    if (this != &other) {
-      clearKey();
-      copyFrom(other);
-    }
-    return *this;
+    FileEncryptor& operator=(FileEncryptor&& other) noexcept {
+      if (this != &other) {
+          encryptionKey = std::move(other.encryptionKey);
+          //clearKey(); TODO, я пока понятия не имею что с этим делать и надо ли вообще )))
+      }
+      return *this;
   }
 
   ~FileEncryptor() { clearKey(); }
@@ -115,22 +117,22 @@ public:
     if (!encryptionKey)
       throw "No encryption key";
 
-    delete[] encryptionKey;
-    encryptionKey = nullptr; // Important to prevent double deletion
+    encryptionKey.reset(); // This will automatically release the memory
   }
 
   void encryptFile(const std::string &fileContent) const noexcept(false) {
+
     std::cout << "encrypting file with content: " << fileContent
-              << " using key " << encryptionKey;
+              << " using key " << encryptionKey.get();
   }
 
 private:
   void copyFrom(const FileEncryptor &other) {
-    encryptionKey = new char[16];
-    std::copy(other.encryptionKey, other.encryptionKey + 16, encryptionKey);
+    encryptionKey = std::make_unique<char[]>(16);
+    std::copy(other.encryptionKey.get(), other.encryptionKey.get() + 16,
+              encryptionKey.get());
   }
-
-  char *encryptionKey;
+  std::unique_ptr<char[]> encryptionKey;
 };
 
 static_assert(std::is_nothrow_move_constructible<FileEncryptor>::value,
