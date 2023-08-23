@@ -39,10 +39,17 @@ public:
       : param1(p1), param2(p2), compressionParams(param1 + param2) {}
 
   FileCompressor(FileCompressor &&fc)
-    : compressionParams(std::move(fc.compressionParams)),
-      param1(std::move(fc.param1)), param2(std::move(fc.param2)) {}
+      : compressionParams(std::move(fc.compressionParams)),
+        param1(std::move(fc.param1)), param2(std::move(fc.param2)) {}
 
   FileCompressor &operator=(FileCompressor &&fc) {
+    if (this == &fc) {
+      return *this; // Self-assignment, nothing to do
+    }
+
+    compressionParams = std::move(fc.compressionParams);
+    param1 = std::move(fc.param1);
+    param2 = std::move(fc.param2);
 
     return *this;
   }
