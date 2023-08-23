@@ -20,7 +20,7 @@ public:
 
 class FileEncoder : public FileProcessor {
 public:
-  virtual void processFile(std::string filePath) noexcept(false) {
+  virtual void processFile(std::string filePath) noexcept override (false) {
     std::ifstream in{filePath};
     std::string fileContent;
     in >> fileContent;
@@ -56,7 +56,7 @@ public:
     return *this;
   }
 
-  virtual void processFile(std::string filePath) noexcept(false) {
+  virtual void processFile(std::string filePath) noexcept override (false) {
     std::ifstream in{filePath};
     std::string fileContent;
     in >> fileContent;
@@ -100,7 +100,7 @@ public:
 
   ~FileEncryptor() { clearKey(); }
 
-  virtual void processFile(std::string filePath) noexcept(false) {
+  virtual void processFile(std::string filePath) noexcept override (false) {
     std::ifstream in{filePath};
     std::string fileContent;
     in >> fileContent;
