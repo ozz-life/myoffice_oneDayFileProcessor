@@ -143,7 +143,7 @@ public:
     return *instance;
   }
 
-  FileProcessor *createFileProcessor(std::string mode) {
+  static FileProcessor *createFileProcessor(std::string mode) {
     if (mode == "encode") {
       return new FileEncoder();
     }
