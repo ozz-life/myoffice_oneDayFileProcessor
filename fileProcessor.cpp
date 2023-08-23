@@ -20,7 +20,7 @@ public:
 
 class FileEncoder : public FileProcessor {
 public:
-  virtual void processFile(std::string filePath) noexcept override (false) {
+  virtual void processFile(std::string filePath) noexcept override(false) {
     std::ifstream in{filePath};
     std::string fileContent;
     in >> fileContent;
@@ -28,7 +28,7 @@ public:
     encodeFile(fileContent);
   }
 
-  static void encodeFile(std::string &fileContent) noexcept(false) {
+  static void encodeFile(const std::string &fileContent) noexcept(false) {
     std::cout << "encoding file with content: " << fileContent;
   }
 };
@@ -36,27 +36,25 @@ public:
 class FileCompressor : public FileProcessor {
 public:
   FileCompressor(std::string &p1, std::string &p2)
-      : param1(p1),
-        param2(p2), // Initialize param1 and param2 before compressionParams
-        compressionParams(param1 + param2) {}
+      : param1(p1), param2(p2), compressionParams(param1 + param2) {}
 
   FileCompressor(FileCompressor &&fc)
-      : compressionParams(std::move(fc.compressionParams)),
-        param1(std::move(fc.param1)), param2(std::move(fc.param2)) {}
+      : param1(std::move(fc.param1)), param2(std::move(fc.param2)),
+        compressionParams(std::move(fc.compressionParams)), {}
 
   FileCompressor &operator=(FileCompressor &&fc) {
     if (this == &fc) {
       return *this; // Self-assignment, nothing to do
     }
 
-    compressionParams = std::move(fc.compressionParams);
     param1 = std::move(fc.param1);
     param2 = std::move(fc.param2);
+    compressionParams = std::move(fc.compressionParams);
 
     return *this;
   }
 
-  virtual void processFile(std::string filePath) noexcept override (false) {
+  virtual void processFile(std::string filePath) noexcept override(false) {
     std::ifstream in{filePath};
     std::string fileContent;
     in >> fileContent;
@@ -64,15 +62,15 @@ public:
     compressFile(fileContent);
   }
 
-  void compressFile(std::string &fileContent) const noexcept(false) {
+  void compressFile(const std::string &fileContent) const noexcept(false) {
     std::cout << "compressing file with content: " << fileContent
               << " using params " << compressionParams;
   }
 
 private:
-  std::string compressionParams;
   std::string param1;
   std::string param2;
+  std::string compressionParams;
 };
 
 class FileEncryptor : public FileProcessor {
@@ -100,7 +98,7 @@ public:
 
   ~FileEncryptor() { clearKey(); }
 
-  virtual void processFile(std::string filePath) noexcept override (false) {
+  virtual void processFile(std::string filePath) noexcept override(false) {
     std::ifstream in{filePath};
     std::string fileContent;
     in >> fileContent;
@@ -117,7 +115,7 @@ public:
     encryptionKey = nullptr; // Important to prevent double deletion
   }
 
-  void encryptFile(std::string &fileContent) const noexcept(false) {
+  void encryptFile(const std::string &fileContent) const noexcept(false) {
     std::cout << "encrypting file with content: " << fileContent
               << " using key " << encryptionKey;
   }
@@ -144,7 +142,7 @@ public:
     return *instance;
   }
 
-  static FileProcessor *createFileProcessor(std::string &mode) {
+  static FileProcessor *createFileProcessor(const std::string &mode) {
     if (mode == "encode") {
       return new FileEncoder();
     }
