@@ -28,7 +28,7 @@ public:
     encodeFile(fileContent);
   }
 
-  void encodeFile(std::string fileContent) noexcept(false) {
+  static void encodeFile(std::string fileContent) noexcept(false) {
     std::cout << "encoding file with content: " << fileContent;
   }
 };
