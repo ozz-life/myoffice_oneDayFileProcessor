@@ -36,7 +36,9 @@ public:
 class FileCompressor : public FileProcessor {
 public:
   FileCompressor(std::string p1, std::string p2)
-      : param1(p1), param2(p2), compressionParams(param1 + param2) {}
+      : param1(p1),
+        param2(p2), // Initialize param1 and param2 before compressionParams
+        compressionParams(param1 + param2) {}
 
   FileCompressor(FileCompressor &&fc)
       : compressionParams(std::move(fc.compressionParams)),
