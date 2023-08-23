@@ -86,6 +86,18 @@ public:
     }
   }
 
+  // Copy constructor
+  FileEncryptor(const FileEncryptor &other) { copyFrom(other); }
+
+  // Assignment operator
+  FileEncryptor &operator=(const FileEncryptor &other) {
+    if (this != &other) {
+      clearKey();
+      copyFrom(other);
+    }
+    return *this;
+  }
+
   ~FileEncryptor() { clearKey(); }
 
   virtual void processFile(std::string filePath) noexcept(false) {
@@ -110,6 +122,11 @@ public:
   }
 
 private:
+  void copyFrom(const FileEncryptor &other) {
+    encryptionKey = new char[16];
+    std::copy(other.encryptionKey, other.encryptionKey + 16, encryptionKey);
+  }
+
   char *encryptionKey;
 };
 
