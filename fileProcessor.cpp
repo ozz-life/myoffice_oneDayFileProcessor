@@ -1,3 +1,6 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+
 #include "fstream"
 #include "iostream"
 #include "string"
@@ -20,7 +23,7 @@ public:
 
 class FileEncoder : public FileProcessor {
 public:
-  virtual void processFile(std::string filePath) noexcept override(false) {
+  virtual void processFile(std::string filePath) override {
     std::ifstream in{filePath};
     std::string fileContent;
     in >> fileContent;
@@ -186,6 +189,7 @@ int main(int argc, char *argv[])
     if (fp) {
       delete fp;
     }
+    
     return 1;
 
   } catch (...) {
