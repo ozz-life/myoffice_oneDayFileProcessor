@@ -1,7 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check
-// it. PVS-Studio Static Code Analyzer for C, C++, C#, and Java:
-// https://pvs-studio.com
-
 #include "fstream"
 #include "iostream"
 #include "string"
@@ -80,6 +76,10 @@ private:
 
 class FileEncryptor : public FileProcessor {
 public:
+  FileEncryptor() {
+    // Initialize
+  }
+
   FileEncryptor(FileEncryptor &&other) noexcept
       : encryptionKey(std::move(other.encryptionKey)) {
     srand(time(NULL));
