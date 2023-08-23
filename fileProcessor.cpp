@@ -40,7 +40,7 @@ public:
 
 class FileCompressor : public FileProcessor {
 public:
-  FileCompressor(std::string &p1, std::string &p2)
+  FileCompressor(const std::string &p1, const std::string &p2)
       : param1(p1), param2(p2), compressionParams(param1 + param2) {}
 
   FileCompressor(FileCompressor &&fc)
@@ -80,8 +80,8 @@ private:
 
 class FileEncryptor : public FileProcessor {
 public:
-  FileEncryptor(FileEncryptor&& other) noexcept : encryptionKey(std::move(other.encryptionKey))
-   {
+  FileEncryptor(FileEncryptor &&other) noexcept
+      : encryptionKey(std::move(other.encryptionKey)) {
     srand(time(NULL));
     encryptionKey = std::make_unique<char[]>(16);
     for (int i = 0; i < 16; i++) {
@@ -94,12 +94,13 @@ public:
   FileEncryptor(const FileEncryptor &other) { copyFrom(other); }
 
   // Assignment operator
-    FileEncryptor& operator=(FileEncryptor&& other) noexcept {
-      if (this != &other) {
-          encryptionKey = std::move(other.encryptionKey);
-          //clearKey(); TODO, я пока понятия не имею что с этим делать и надо ли вообще )))
-      }
-      return *this;
+  FileEncryptor &operator=(FileEncryptor &&other) noexcept {
+    if (this != &other) {
+      encryptionKey = std::move(other.encryptionKey);
+      // clearKey(); TODO, я пока понятия не имею что с этим делать и надо ли
+      // вообще )))
+    }
+    return *this;
   }
 
   ~FileEncryptor() { clearKey(); }
