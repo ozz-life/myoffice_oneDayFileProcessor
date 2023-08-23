@@ -102,7 +102,7 @@ public:
 
   ~FileEncryptor() { clearKey(); }
 
-  virtual void processFile(std::string filePath) noexcept override(false) {
+  virtual void processFile(std::string filePath) noexcept(false) override {
     std::ifstream in{filePath};
     std::string fileContent;
     in >> fileContent;
